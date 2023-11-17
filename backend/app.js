@@ -1,15 +1,18 @@
 import  express  from "express";
 import { config } from 'dotenv';
+import cors from 'cors'
 import userRouter from './router/userInfoRouter.js'
-config()
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 const app = express();
 
 app.use(express.json())
+app.use(cookieParser());
+app.use(cors({ origin: [process.env.CLIENT_URL]}));
 
-app.use('/ping', function(req,res){
-    res.send('Pong')
-})
+
 
 app.use('/api/user',userRouter)
 
