@@ -1,37 +1,31 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import {useState } from 'react'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function Home() {
     const [loading, setLoading] = useState(false);
-    const [userData, setUserData] = useState(false);
-    const navigate = useNavigate()
+    const [searchName, setSearchName] = useState();
+    const [userDetails, setUserDetails] = useState(null);
+   
 
-  const URL = import.meta.env.VITE_REACT_APP_URL;
+const handleSearch = async (e) => {
+  setLoading(true)
+  e.preventDefault();
+  try {
+    const response = await axios.get(`http://localhost:4000/api/user/getUser/${searchName}`);
+    console.log('response',response)
+    console.log('data',response.data)
+    setUserDetails(response.data);
+    setLoading(false)
 
-  useEffect(() => {
-    getUser();
-  }, []);
-async function getUser(){
-    setLoading(true)
-
-   try {
-     const response = await axios({
-         method: "get",
-         url: URL + "/api/user/getUser"
-       });
-       if (response.data.success) {
-         setUserData(response.data.data);
-       }
-       setLoading(false);
-   } catch (error) {
-    // navigate("/submitForm");
-      setLoading(false);
-   }
-}
+  } catch (error) {
+    setLoading(false)
+    console.error('Error fetching user details:', error.message);
+  }
+};
 
   return (
-    <>
+    <div>
     {loading ? (
         // loading
         <svg
@@ -52,14 +46,53 @@ async function getUser(){
           />
         </svg>
       ) : ( 
-      <div>
-        <h3>User Details</h3>
-        {userData.fullName},
-        {userData.email},
-        {userData.fatherName}
-      </div>
+        <div className="mb-6">
+        <label
+        className='text-white text-4xl'
+         htmlFor="">
+          Entre registerd name
+        </label>
+        <input
+          type="text"
+          id="searchName"
+          className="shadow-sm bg-gray-500 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light mt-10 flex justify-center items-center"
+          placeholder="user name"
+          required
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+        />
+        <button
+        onClick={handleSearch}
+          className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Search
+        </button>
+        <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
+          User already exist?{" "}
+          <Link
+            to="/submitForm"
+            className="text-blue-700 hover:underline dark:text-blue-500"
+          >
+            Find User Details
+          </Link>
+        </div>
+      </div> 
+             
         )}
-    </>
+        <div>
+          {userDetails ? ( 
+        <div>
+               <h2 className="text-2xl font-bold mb-4">User Details</h2>
+        
+        <div className='flex flex-col items-center text-center'>
+<p className='mb-2 font-bold'>{userDetails.data.fullName}</p>
+<p className='mb-2 font-bold'>{userDetails.data.email}</p>
+<p className='mb-2 font-bold'>{userDetails.data.fatherName}</p>
+</div>
+        </div>) : (null)}
+        </div>
+       
+    </div>
   )
 }
 

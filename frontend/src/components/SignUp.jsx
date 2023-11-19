@@ -33,7 +33,7 @@ function SignUp() {
         try {
           const response = await axios({
             method: "post",
-            url: URL + "/api/user/submitForm",
+            url: 'http://localhost:4000' + "/api/user/submitForm",
             data: userData
           });
   
@@ -110,7 +110,7 @@ function SignUp() {
            D.O.B
           </label>
           <input
-            type="text"
+            type="date"
             id=""
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             placeholder="01/01/1999"
@@ -120,21 +120,26 @@ function SignUp() {
         </div>
         {/** Gender */}
         <div className="mb-6">
-          <label
-            htmlFor="gender"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-          Gender
-          </label>
-          <input
-            type="text"
-            id=""
-            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-            placeholder="Male/female"
-            value={userData.gender}
-            onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
-          />
-        </div>
+  <label
+    htmlFor="gender"
+    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+  >
+    Gender
+  </label>
+  <select
+    id="gender"
+    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+    value={userData.gender}
+    onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
+  >
+    <option value="" disabled>Select your gender</option>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="transgender">Transgender</option>
+  </select>
+</div>
+
+
 
 
         {/** Father name */}
@@ -219,14 +224,16 @@ function SignUp() {
         {/** Pan No. */}
         <div className="mb-6">
           <label
-            htmlFor="name"
+            htmlFor="panNumber"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
           PAN No.
           </label>
           <input
             type="text"
-            id=""
+            id="panNumber"
+    pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+    title="Enter a valid PAN number (e.g., ABCDE1234F)"
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             placeholder="user name"
             value={userData.panNo}
@@ -237,14 +244,16 @@ function SignUp() {
         {/** Aadhar No. */}
         <div className="mb-6">
           <label
-            htmlFor="name"
+            htmlFor="aadharNumber"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
           Aadhar No.
           </label>
           <input
-            type="Number"
-            id=""
+            type="text"
+            id="aadharNumber"
+            pattern="[0-9]{12}"
+            title="Enter a valid 12-digit Aadhar number"
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             placeholder="1254-6521-3620"
             value={userData.aadharNo}
@@ -254,21 +263,37 @@ function SignUp() {
 
         {/** caste */}
         <div className="mb-6">
-          <label
-            htmlFor="name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-          Caste 
-          </label>
-          <input
-            type="text"
-            id=""
-            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-            placeholder="user name"
-            value={userData.caste}
-            onChange={(e) => setUserData({ ...userData, caste: e.target.value })}
-          />
-        </div>
+  <label
+    htmlFor="caste"
+    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+  >
+    Caste
+  </label>
+  <input
+    type="text"
+    id="caste"  // Set a specific ID for the input
+    list="casteOptions"  // Match the ID of the datalist
+    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+    placeholder="Enter your caste"
+    value={userData.caste}
+    onChange={(e) => setUserData({ ...userData, caste: e.target.value })}
+  />
+  <datalist id="casteOptions">  {/* Match the ID of the datalist with the input's list attribute */}
+    <option value="Yadav" />
+    <option value="Kushwaha (Koeri)" />
+    <option value="Kurmi" />
+    <option value="Brahmin" />
+    <option value="Teli" />
+    <option value="Bania" />
+    <option value="Bhumihar" />
+    <option value="Rajput" />
+    <option value="Ravidas" />
+    <option value="Musahar" />
+    <option value="BC-1" />
+    <option value="BC-11" />
+  </datalist>
+</div>
+
 
         {/** Address */}
         <div className="mb-6">

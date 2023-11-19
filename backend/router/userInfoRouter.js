@@ -4,7 +4,7 @@ const router = Router();
 import {submitForm, getUser} from "../controller/userInfoController.js";
 
 router.post('/submitForm',submitForm)
-router.post('/getUser',getUser)
+router.get('/getUser/:fullName',getUser)
 
 
 export default router

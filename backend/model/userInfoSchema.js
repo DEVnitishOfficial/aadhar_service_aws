@@ -21,7 +21,7 @@ const userInfoSchema = new Schema({
         ],
       },
       dateOfBirth:{
-        type: Number,
+        type: String,
         lowercase : true
       },
       fatherName:{
@@ -59,5 +59,5 @@ const userInfoSchema = new Schema({
 
 })
 
-const User = model('userInfo',userInfoSchema)
+const User = model('User',userInfoSchema)
 export default User
