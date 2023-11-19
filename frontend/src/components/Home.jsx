@@ -1,32 +1,33 @@
-import {useState } from 'react'
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Home() {
-    const [loading, setLoading] = useState(false);
-    const [searchName, setSearchName] = useState();
-    const [userDetails, setUserDetails] = useState(null);
-   
+  const [loading, setLoading] = useState(false);
+  const [searchName, setSearchName] = useState();
+  const [userDetails, setUserDetails] = useState(null);
 
-const handleSearch = async (e) => {
-  setLoading(true)
-  e.preventDefault();
-  try {
-    const response = await axios.get(`http://localhost:4000/api/user/getUser/${searchName}`);
-    console.log('response',response)
-    console.log('data',response.data)
-    setUserDetails(response.data);
-    setLoading(false)
-
-  } catch (error) {
-    setLoading(false)
-    console.error('Error fetching user details:', error.message);
-  }
-};
+  const handleSearch = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/user/getUser/${searchName}`
+      );
+      console.log("response", response);
+      console.log("data", response.data);
+      setUserDetails(response.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching user details:", error.message);
+      window.alert("User not registered. Please registerd first ❌❌❌❌!!!!.");
+    }
+  };
 
   return (
     <div>
-    {loading ? (
+      {loading ? (
         // loading
         <svg
           aria-hidden="true"
@@ -45,55 +46,141 @@ const handleSearch = async (e) => {
             fill="#1C64F2"
           />
         </svg>
-      ) : ( 
+      ) : (
         <div className="mb-6">
-        <label
-        className='text-white text-4xl'
-         htmlFor="">
-          Entre registerd name
-        </label>
-        <input
-          type="text"
-          id="searchName"
-          className="shadow-sm bg-gray-500 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light mt-10 flex justify-center items-center"
-          placeholder="user name"
-          required
-          value={searchName}
-          onChange={(e) => setSearchName(e.target.value)}
-        />
-        <button
-        onClick={handleSearch}
-          className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Search
-        </button>
-        <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-          User already exist?{" "}
-          <Link
-            to="/submitForm"
-            className="text-blue-700 hover:underline dark:text-blue-500"
+          <label className="text-white text-4xl flex justify-center items-center text-center mt-5 font-bold" htmlFor="">
+            Search User By Name
+          </label>
+          <input
+            type="text"
+            id="searchName"
+            className="shadow-sm bg-gray-500 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light mt-10 flex justify-center items-center text-center text-xl"
+            placeholder="user name"
+            required
+            value={searchName}
+            onChange={(e) => setSearchName(e.target.value)}
+          />
+          <button
+            onClick={handleSearch}
+            className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-5"
           >
-            Find User Details
-          </Link>
+            Search
+          </button>
+          <div className="text-sm font-medium text-gray-500 dark:text-gray-300 text-xl">
+            User Not Registered?{" "}
+            <Link
+              to="/submitForm"
+              className="text-blue-700 hover:underline dark:text-blue-500 text-xl"
+            >
+              Register User
+            </Link>
+          </div>
         </div>
-      </div> 
-             
-        )}
-        <div>
-          {userDetails ? ( 
-        <div>
-               <h2 className="text-2xl font-bold mb-4">User Details</h2>
-        
-        <div className='flex flex-col items-center text-center'>
-<p className='mb-2 font-bold'>{userDetails.data.fullName}</p>
-<p className='mb-2 font-bold'>{userDetails.data.email}</p>
-<p className='mb-2 font-bold'>{userDetails.data.fatherName}</p>
-</div>
-        </div>) : (null)}
-        </div>
-       
+      )}
+      <div>
+        {userDetails ? (
+          <div className="overflow-x-auto flex space-x-10 text-xl">
+            <div>
+              <h1 className="font-bold text-white text-3xl">
+                Personal Infromation
+              </h1>
+              <table className="table">
+                {/* head */}
+
+                <thead className="text-yellow-400">
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                  </tr>
+                </thead>
+                <tbody className="text-green-500">
+                  {/* row 1 */}
+                  <tr>
+                    <th>1. </th>
+                    <td>FullName</td>
+                    <td>{userDetails.data.fullName}</td>
+                  </tr>
+                  {/* row 2 */}
+                  <tr className="hover">
+                    <th>2. </th>
+                    <td>Email</td>
+                    <td>{userDetails.data.email}</td>
+                  </tr>
+                  {/* row 3 */}
+                  <tr>
+                    <th>3. </th>
+                    <td>D.O.B</td>
+                    <td>{userDetails.data.dateOfBirth}</td>
+                  </tr>
+                  <tr>
+                    <th>4. </th>
+                    <td>Fathe Name</td>
+                    <td>{userDetails.data.fatherName}</td>
+                  </tr>
+                  <tr>
+                    <th>5. </th>
+                    <td>Mother Name</td>
+                    <td>{userDetails.data.motherName}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div>
+              <h1 className="font-bold text-white text-3xl">
+                Contact Infromation
+              </h1>
+              <table className="table">
+                {/* head */}
+
+                <thead className="text-yellow-400">
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                  </tr>
+                </thead>
+                <tbody className="text-green-500">
+                  {/* row 1 */}
+                  <tr>
+                    <th>1. </th>
+                    <td>Mobile No.</td>
+                    <td>{userDetails.data.mobileNo}</td>
+                  </tr>
+                  {/* row 2 */}
+                  <tr className="hover">
+                    <th>2. </th>
+                    <td>WhatsApp</td>
+                    <td>{userDetails.data.whatsAppNumber}</td>
+                  </tr>
+                  {/* row 3 */}
+                  <tr>
+                    <th>3. </th>
+                    <td>Pan No.</td>
+                    <td>{userDetails.data.panNo}</td>
+                  </tr>
+                  <tr>
+                    <th>4. </th>
+                    <td>Aadhar No.</td>
+                    <td>{userDetails.data.aadharNo}</td>
+                  </tr> <tr>
+                    <th>5. </th>
+                    <td>Caste</td>
+                    <td>{userDetails.data.caste}</td>
+                  </tr> <tr>
+                    <th>6. </th>
+                    <td>Address</td>
+                    <td>{userDetails.data.address}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ) : (null)}
+      </div>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

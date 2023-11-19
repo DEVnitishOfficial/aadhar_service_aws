@@ -44,7 +44,9 @@ const submitForm = async (req, res, next) => {
 
   const getUser = async (req, res, next) => {
     try {
-      const user = await User.findOne({ fullName: req.params.fullName });
+      // const user = await User.findOne({ fullName: req.params.fullName });
+      // const user = await User.findOne({ fullName: new RegExp(req.params.fullName, 'i') });
+      const user = await User.findOne({ fullName: new RegExp(`^${req.params.fullName}$`, 'i') });
       console.log('user',user)
       if (!user) {
         return res.status(404).json({
