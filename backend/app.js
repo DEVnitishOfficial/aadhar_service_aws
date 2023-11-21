@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 // app.use(cors({ origin: [process.env.CLIENT_URL]}));
 app.use("/api/user", userRouter);
 app.use("/",(req,res) => {
-        res.status(201).send("home page")
+        res.json("Home page")
 });
 
 app.use("*", (req, res) => {
