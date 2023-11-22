@@ -45,7 +45,7 @@ function SignUp() {
           }
           setLoading(false);
         } catch (error) {
-          alert(error.response.data.message);
+          alert(error.message);
           console.log(error.message)
           setLoading(false);
         }
