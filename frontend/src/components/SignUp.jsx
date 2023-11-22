@@ -38,6 +38,7 @@ function SignUp() {
           });
   
           if (response.data.success) {
+            alert('data successfully saved !!!')
             console.log('got success',response)
             console.log('send data',userData)
             navigate("/getUser");
