@@ -33,7 +33,7 @@ function SignUp() {
         try {
           const response = await axios({
             method: "post",
-            url: 'https://user-profile-manager-backend.vercel.app' + "/api/user/submitForm",
+            url: 'http://user-profile-manager-backend.vercel.app' + "/api/user/submitForm",
             data: userData
           });
   
