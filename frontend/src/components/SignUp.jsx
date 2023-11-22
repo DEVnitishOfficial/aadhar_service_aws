@@ -22,8 +22,8 @@ function SignUp() {
         gender:""
       });
 
-  const URL = import.meta.env.VITE_REACT_APP_URL;
-  console.log('url',URL)
+  // const URL = import.meta.env.VITE_REACT_APP_URL;
+  // console.log('url',URL)
 
       async function handleSignUp(e){
         e.preventDefault()
