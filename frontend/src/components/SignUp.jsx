@@ -39,11 +39,13 @@ function SignUp() {
   
           if (response.data.success) {
             console.log('got success',response)
+            console.log('send data',userData)
             navigate("/getUser");
           }
           setLoading(false);
         } catch (error) {
           alert(error.response.data.message);
+          console.log(error.message)
           setLoading(false);
         }
       }
