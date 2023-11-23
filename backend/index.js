@@ -8,8 +8,8 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    // origin: ["https://user-profile-manager-frontend.vercel.app"],
-    // methods: ["GET", "POST"],
+    origin: ["https://user-profile-manager-frontend.vercel.app"],
+    methods: ["GET", "POST"],
     // credentials: true,
   })
 );
