@@ -5,7 +5,7 @@ mongoose.set("strictQuery", false); // disabling strict features of mongoose
 // database connection
 const connectToDB = async () => {
   try {
-    const {connection} = await mongoose.connect(process.env.MONGO_URL");
+    const {connection} = await mongoose.connect(process.env.MONGO_URL);
   
     if(connection){
       console.log(`Connected to MongodDB at : ${connection.host}`)

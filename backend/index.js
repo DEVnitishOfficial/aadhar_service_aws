@@ -8,8 +8,8 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: ["https://user-profile-manager-frontend.vercel.app"],
-    methods: ["GET", "POST"],
+    // origin: ["https://user-profile-manager-frontend.vercel.app"],
+    // methods: ["GET", "POST"],
     // credentials: true,
   })
 );
@@ -17,10 +17,14 @@ app.use(express.json());
 // app.use(bodyParser.json());
 
 // app.use(cors({ origin: [process.env.CLIENT_URL]}));
-// app.use("/",(req,res) => {
-//         res.json("Home page")
-// });
+app.use("/",(req,res) => {
+        res.json("Home page")
+});
 app.use("/api/user", userRouter);
+
+app.use("/check",(req,res) => {
+  res.json("Route checking successfull")
+});
 
 
 app.use("*", (req, res) => {
