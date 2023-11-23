@@ -21,6 +21,7 @@ function Home() {
     } catch (error) {
       setLoading(false);
       console.error("Error fetching user details:", error.message);
+       console.error("Error response:", error.response);
       window.alert("User not registered. Please registerd first ❌❌❌❌!!!!.");
     }
   };
