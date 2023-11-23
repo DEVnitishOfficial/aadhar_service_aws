@@ -22,7 +22,7 @@ app.use("/",(req,res) => {
 });
 app.use("/api/user", userRouter);
 
-app.use("/check",(req,res) => {
+app.use("/api/check",(req,res) => {
   res.json("Route checking successfull")
 });
 
