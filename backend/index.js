@@ -10,7 +10,7 @@ app.use(
   cors({
     origin: ["https://user-profile-manager-frontend.vercel.app"],
     methods: ["GET", "POST"],
-    // credentials: true,
+    credentials: true,
   })
 );
 app.use(express.json());
