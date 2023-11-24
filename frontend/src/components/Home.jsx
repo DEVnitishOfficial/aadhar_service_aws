@@ -67,7 +67,7 @@ function Home() {
           >
             Search
           </button>
-          <div className="text-sm font-medium text-gray-500 dark:text-gray-300 text-xl">
+          <div className="font-medium text-gray-500 dark:text-gray-300 text-xl">
             User Not Registered?{" "}
             <Link
               to="/submitForm"
