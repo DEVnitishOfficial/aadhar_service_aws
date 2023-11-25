@@ -12,7 +12,7 @@ function Home() {
     e.preventDefault();
     try {
       const response = await axios.get(
-        `https://user-profile-manager.vercel.app/api/user/getUser/${searchName}`
+        `http://localhost:4000/api/user/getUser/${searchName}`
       );
       console.log("response", response);
       console.log("data", response.data);
