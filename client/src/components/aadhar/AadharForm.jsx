@@ -5,7 +5,6 @@ const AadharForm = () => {
       <h5 className='text-xl font-medium text-gray-900 dark:text-white flex justify-center'>
         Fill Form To Get Aadhar
       </h5>
-      
 
 
     </div>
