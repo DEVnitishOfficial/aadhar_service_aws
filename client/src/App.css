@@ -1,0 +1,38 @@
+body{
+  background-color: black;
+
+  /* background-image: url("https://img.freepik.com/free-vector/gradient-purple-striped-background_23-2149547193.jpg?size=626&ext=jpg&ga=GA1.1.1826414947.1699488000&semt=ais"); */
+
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+}
+
+ .custom_animation{
+  padding: 20px 10px;
+  animation: glowing 2s linear infinite;
+ 
+}
+@keyframes glowing {
+  0% {
+      color: red;
+      text-shadow: 0 0 5px red;
+  }
+  50% {
+      color: yellow;
+      text-shadow: 0 0 20px yellow;
+  }
+  100% {
+      color: red;
+      text-shadow: 0 0 5px red;
+  }
+}
+button:hover{
+  font-size: 35px;
+  animation: gradientAnimation 1.5s infinite;
+}
+
+@keyframes gradientAnimation {
+  0% { background-image: linear-gradient(to bottom, #ff5e00, #0072ff); }
+  50% { background-image: linear-gradient(to bottom, #3a3fc3, #a5b527); }
+  100% { background-image: linear-gradient(to bottom, #ff00cc, #1c4d39); }
+}
