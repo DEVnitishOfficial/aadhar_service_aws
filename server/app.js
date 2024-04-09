@@ -1,5 +1,6 @@
 import express from "express";
 import userRouter from "./router/userInfoRouter.js";
+import aadharRouter from "./router/aadharRouter.js"
 import dotenv from "dotenv";
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -45,14 +46,9 @@ app.listen(PORT, async () => {
 })
 
 app.use("/api/user", userRouter);
+app.use("/api/user/aadhar", aadharRouter);
 
-app.use("/api/user",(req,res) => {
-  res.json("Route checking successfull")
-});
 
-app.use("/",(req,res) => {
-        res.json("Home page")
-});
 
 app.use("*", (req, res) => {
   res.status(404).send("OPPS!! 404 page not found");

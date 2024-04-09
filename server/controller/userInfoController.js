@@ -1,7 +1,6 @@
 import emailValidator from "email-validator";
 import User from "../model/userInfoSchema.js";
-import fs from "fs/promises";
-import cloudinary from 'cloudinary'
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const submitForm = async (req, res, next) => {
   const { fullName, email } = req.body;
@@ -44,41 +43,24 @@ const submitForm = async (req, res, next) => {
     }
 
   try {
-    if (req.file) {
-      try {
-        const result = await cloudinary.v2.uploader.upload(req.file.path, {
-          folder: "public_info",
-          width: 250,
-          height: 250,
-          gravity: "faces",
-          crop: "fill",
-        });
-        console.log('result',result)
-        const userInfo = await User.create({
-          fullName,
-          email,
-          avatar: {
-            public_id: result.public_id,
-            secure_url:result.secure_url
-          },
-        });
-        fs.rm(`uploads/${req.file.filename}`);
-
-        console.log("userInfo", userInfo);
-    
-        const savedInfo = await userInfo.save();
-        return res.status(200).json({
-          success: true,
-          data: savedInfo,
-        });
-      } catch (error) {
-        return res.status(400).json({
-          message: error.message,
-        });
-      }
-    }
-
-    
+    const avatarLocalPath =  req.file?.path
+        const cloudUpload = await uploadOnCloudinary(avatarLocalPath)
+        if(!cloudUpload?.url){
+         throw new Error("Got error while uploading avatar")
+        }
+    const userInfo = await User.create({
+      fullName,
+      email,
+      avatar: {
+        public_id: cloudUpload.public_id,
+        secure_url:cloudUpload.secure_url
+      },
+    });
+    const savedInfo = await userInfo.save();
+    return res.status(200).json({
+      success:true,
+      data:savedInfo
+    })
   } catch (error) {
     return res.status(400).json({
       message: error.message,
