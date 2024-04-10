@@ -11,14 +11,19 @@ const submitAadharForm = async(req,res) => {
     try {
         let data = {
             "name":engName,
-            "aadhar":aadharNo,
-            "address":address
+            "address":address,
+            "description":`${aadharNo} The generated Aadhar card is based on manually entered data and may not exactly match the Aadhar card database. It is provided for informational purpose only and should not be considerd an official document or a replacement for the original UIDI-issued Aadhar card.`
         }
       
-        const qrCode = QRGenerator(data)
-        console.log('qrcode from controller>>>',qrCode)
+        const qrCodefilePath = await QRGenerator(data)
+        console.log('qrcode from controller>>>',qrCodefilePath)
+        const cloudUploadQR = await uploadOnCloudinary(qrCodefilePath)
+            if(!cloudUploadQR?.url){
+             throw new Error("Got error while uploading avatar")
+            }
 
         const avatarLocalPath =  req.file?.path
+        console.log('avatarlocalfilepath',avatarLocalPath)
             const cloudUpload = await uploadOnCloudinary(avatarLocalPath)
             if(!cloudUpload?.url){
              throw new Error("Got error while uploading avatar")
@@ -34,10 +39,10 @@ const submitAadharForm = async(req,res) => {
             public_id: cloudUpload.public_id,
             secure_url:cloudUpload.secure_url
           },
-        //   QRCode: {
-        //     public_id: qrCode.public_id,
-        //     secure_url:qrCode.secure_url
-        //   }
+          QRCode: {
+            public_id: cloudUploadQR.public_id,
+            secure_url:cloudUploadQR.secure_url
+          }
         });
         const savedAadharInfo = await AadharInfo.save();
         return res.status(200).json({
