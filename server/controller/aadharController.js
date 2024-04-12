@@ -57,4 +57,27 @@ const submitAadharForm = async(req,res) => {
 
 }
 
-export default submitAadharForm
+const getAadharInfo = async(req,res) => {
+    try {
+      const {currentAadharId} = req.body
+      const aadharInfo = await Aadhar.findById({"_id" : currentAadharId})
+      if (!aadharInfo){
+        return res.status(404).json({
+          success: false,
+          message: "aadharInfo not found",
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        data: aadharInfo,
+      });
+
+    } catch (error) {
+       return res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+    }
+}
+
+export {submitAadharForm, getAadharInfo} 
