@@ -5,7 +5,7 @@ import { getAadharInfo, submitAadharForm} from "../controller/aadharController.j
 import upload from "../middleware/multerMiddleware.js";
 
 router.post('/submitAadharForm', upload.single('avatar'),submitAadharForm)
-router.get('/getAadhar', getAadharInfo)
+router.get('/getAadhar/:engName', getAadharInfo)
 
 
 export default router

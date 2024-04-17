@@ -13,7 +13,9 @@ const AadharForm = () => {
     DOB: '',
     gender: '',
     aadharNo: '',
-    address: ''
+    address: '',
+    hinAddress:'',
+    aadharIssueDate:'',
   })
 
   function getImage (event) {
@@ -49,6 +51,8 @@ const AadharForm = () => {
     formData.append('gender', userData.gender)
     formData.append('aadharNo', userData.aadharNo)
     formData.append('address', userData.address)
+    formData.append('hinAddress', userData.hinAddress)
+    formData.append('aadharIssueDate', userData.aadharIssueDate)
     // Append file
     formData.append('avatar', userData.avatar)
 
@@ -171,7 +175,7 @@ const AadharForm = () => {
                जन्म तिथि / DOB :
               </label>
               <input
-                type='text'
+                type='date'
                 id=''
                 className='shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
                 placeholder='user name'
@@ -191,17 +195,21 @@ const AadharForm = () => {
               >
                Gender
               </label>
-              <input
-                type='text'
-                id=''
+              <select
+                id='gender'
                 className='shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
-                placeholder='पुरुष / Male'
-                required
                 value={userData.gender}
                 onChange={e =>
                   setUserData({ ...userData, gender: e.target.value })
                 }
-              />
+              >
+                <option value='' disabled>
+                  Select your gender
+                </option>
+                <option value='male'>Male</option>
+                <option value='female'>Female</option>
+                <option value='transgender'>Transgender</option>
+              </select>
             </div>
         </div>
 
@@ -214,7 +222,7 @@ const AadharForm = () => {
             {/* your address  */}
             <div className='mb-6'>
               <label
-                htmlFor='name'
+                htmlFor='engAddress'
                 className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
               >
                 Address
@@ -223,11 +231,53 @@ const AadharForm = () => {
                 type='text'
                 id=''
                 className='shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
-                placeholder='user name'
+                placeholder='address in english'
                 required
                 value={userData.address}
                 onChange={e =>
                   setUserData({ ...userData, address: e.target.value })
+                }
+              />
+            </div>
+
+            {/* your address in hindi  */}
+            <div className='mb-6'>
+              <label
+                htmlFor='hinAddress'
+                className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+              >
+                पता
+              </label>
+              <input
+                type='text'
+                id=''
+                className='shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
+                placeholder='address in hindi'
+                required
+                value={userData.hinAddress}
+                onChange={e =>
+                  setUserData({ ...userData, hinAddress: e.target.value })
+                }
+              />
+            </div>
+
+                {/* aadhar issue date */}
+            <div className='mb-6'>
+              <label
+                htmlFor='aadharIssueDate'
+                className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+              >
+                Aadhar issue date
+              </label>
+              <input
+                type='text'
+                id=''
+                className='shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
+                placeholder='02/04/2006'
+                required
+                value={userData.aadharIssueDate}
+                onChange={e =>
+                  setUserData({ ...userData, aadharIssueDate: e.target.value })
                 }
               />
             </div>
@@ -242,15 +292,28 @@ const AadharForm = () => {
               </label>
               <input
                 type='text'
-                id=''
+                id='aadharNo'
                 className='shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
-                placeholder='user name'
+                placeholder='12 digit Aadhar no.'
                 required
                 value={userData.aadharNo}
-                onChange={e =>
-                  setUserData({ ...userData, aadharNo: e.target.value })
+                onChange={e => {
+                let inputNumber = e.target.value.replace(/\D/g, ''); // Remove non-digit characters
+                inputNumber = inputNumber.slice(0, 12); // Limit input to 12 digits
+                let formatted = '';
+
+                // Format the number into groups of 4 digits
+                for (let i = 0; i < inputNumber.length; i++) {
+                if (i % 4 === 0 && i !== 0) {
+                formatted += ' '; // Add a space after every 4 digits
                 }
+                formatted += inputNumber[i];
+                }
+
+                setUserData({ ...userData, aadharNo: formatted });
+                }}
               />
+
             </div>
         </div>
 

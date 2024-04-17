@@ -7,6 +7,8 @@ function Home () {
   const [searchName, setSearchName] = useState()
   const [userDetails, setUserDetails] = useState(null)
 
+  console.log('serachName>>>>',searchName)
+
   const handleSearch = async e => {
     setLoading(true)
     e.preventDefault()

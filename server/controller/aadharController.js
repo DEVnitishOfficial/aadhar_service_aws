@@ -3,9 +3,9 @@ import QRGenerator from "../utils/QRGenerator.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const submitAadharForm = async(req,res) => {
-    const {hinName,engName,DOB,gender,aadharNo,address} = req.body;
-    if([hinName || engName || DOB || gender || aadharNo || address].some((field) => field.trim() === "")){
-        throw new Error("every filed is required")
+    const {hinName,engName,DOB,gender,aadharNo,address,hinAddress, aadharIssueDate} = req.body;
+    if([hinName || engName || DOB || gender || aadharNo || address || hinAddress || aadharIssueDate].some((field) => field.trim() === "")){
+        throw new Error("every field is required")
     }
 
     try {
@@ -35,6 +35,8 @@ const submitAadharForm = async(req,res) => {
             gender,
             aadharNo,
             address,
+            hinAddress,
+            aadharIssueDate,
           avatar: {
             public_id: cloudUpload.public_id,
             secure_url:cloudUpload.secure_url
@@ -59,8 +61,8 @@ const submitAadharForm = async(req,res) => {
 
 const getAadharInfo = async(req,res) => {
     try {
-      const {currentAadharId} = req.body
-      const aadharInfo = await Aadhar.findById({"_id" : currentAadharId})
+    const aadharInfo = await Aadhar.findOne({ engName : new RegExp(`^${req.params.engName}$`, "i"), });
+
       if (!aadharInfo){
         return res.status(404).json({
           success: false,

@@ -26,6 +26,14 @@ const AadharSchema = new Schema({
         type:String,
         required: [true, "address is Required"],
     },
+    hinAddress:{
+        type:String,
+        required: [true, "hindi address is Required"],
+    },
+    aadharIssueDate:{
+        type:String,
+        required: [true, "aadhar issue date is Required"],
+    },
     QRCode:{
         public_id: {
             type: String,

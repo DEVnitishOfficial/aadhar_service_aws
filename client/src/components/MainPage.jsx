@@ -19,7 +19,7 @@ const MainPage = () => {
           Register User
         </button>
         <button
-          onClick={() => navigate('/card')}
+          onClick={() => navigate('/card/form')}
           className='bg-green-500 p-4 rounded-md'
         >
           Print Aadhar
