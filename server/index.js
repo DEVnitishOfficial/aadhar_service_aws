@@ -26,11 +26,6 @@ app.use((_, res, next) => {
 app.use(express.json());
 app.use(express.static(path.join(__dirname,'./client/dist')))
 
-// app.use('*', (req,res) => {
-//   res.sendFile(path.join(__dirname,'./client/dist/index.html'), function(error){
-//     res.status(500).send('error from routing dnkn>>>>',error)
-//   })
-// })
 
 const PORT = process.env.PORT || 8000;
 
